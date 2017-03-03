@@ -27,7 +27,7 @@ public class Vector3f {
         }
     }
 
-    public Vector3f nomalise(){
+    public Vector3f normalise() {
         //work in progress
         float sum = 0.0f;
         for (float v: values){
