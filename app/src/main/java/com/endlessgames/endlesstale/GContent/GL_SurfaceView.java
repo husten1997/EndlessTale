@@ -25,7 +25,8 @@ public class GL_SurfaceView extends GLSurfaceView{
                 float dx = x - mPreviousX;
                 float dy = y - mPreviousY;
 
-                mRenderer.dothis(dx, -dy);
+                System.out.println("Width: " + this.getWidth() + " Height: " + this.getHeight());
+                mRenderer.dothis(dx / this.getWidth(), -dy / this.getHeight());
 
 
         }
