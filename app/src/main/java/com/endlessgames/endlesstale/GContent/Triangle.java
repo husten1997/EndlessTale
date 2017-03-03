@@ -146,6 +146,6 @@ public class Triangle {
 
     public void dothis(float x, float y){
         transformR(new Vector3f(x/720, y/1280, 0f));
-        System.out.println("Done 3");
+        //System.out.println("Done 3");
     }
 }

@@ -33,7 +33,7 @@ public class GL_SurfaceView extends GLSurfaceView{
         mPreviousX = x;
         mPreviousY = y;
 
-        System.out.println("Done 1");
+        //System.out.println("Done 1");
         return true;
     }
 

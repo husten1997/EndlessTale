@@ -47,6 +47,6 @@ public class GL_Renderer implements GLSurfaceView.Renderer {
 
     public void dothis(float x, float y){
         mTriangle.dothis(x, y);
-        System.out.println("Done 2");
+        //System.out.println("Done 2");
     }
 }
