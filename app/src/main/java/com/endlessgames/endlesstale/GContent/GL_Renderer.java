@@ -4,6 +4,9 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
 import com.endlessgames.endlesstale.MathContent.Vector3f;
+import com.endlessgames.endlesstale.rendering.FlatColoredObject;
+import com.endlessgames.endlesstale.rendering.Level;
+import com.endlessgames.endlesstale.shader.FlatColoredShader;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -14,12 +17,15 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class GL_Renderer implements GLSurfaceView.Renderer {
 
-    private Triangle mTriangle;
+    private Level level;
+    private FlatColoredShader flatColoredShader;
+
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        mTriangle = new Triangle();
+        level = new Level();
+        flatColoredShader = new FlatColoredShader();
     }
 
     @Override
@@ -30,25 +36,18 @@ public class GL_Renderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl10) {
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
-        GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT);
-        mTriangle.draw();
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+
+        drawFlatColoredObjects();
     }
 
-    public static int loadShader(int type, String shaderCode){
-
-        // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
-        // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
-        int shader = GLES20.glCreateShader(type);
-
-        // add the source code to the shader and compile it
-        GLES20.glShaderSource(shader, shaderCode);
-        GLES20.glCompileShader(shader);
-
-        return shader;
+    private void drawFlatColoredObjects(){
+        for(FlatColoredObject obj: level.getFlatColoredObjects()){
+            flatColoredShader.draw(obj);
+        }
     }
 
     public void translate(Vector3f translation){
-        mTriangle.translate(translation);
+        level.translate(translation);
     }
 }

@@ -16,6 +16,10 @@ public class Vector3f {
 
     }
 
+    public Vector3f clone(){
+        return new Vector3f(values);
+    }
+
     public Vector3f(float v1, float v2, float v3){
         this.values = new float[]{v1, v2, v3};
     }
@@ -53,18 +57,18 @@ public class Vector3f {
 
     }
 
-    public void multiply(float scalar){
-        for (float v :values) {
-            v *= scalar;
+    public Vector3f multiply(float scalar){
+        for (int i = 0; i < values.length; i++) {
+            values[i] *= scalar;
         }
+        return this;
     }
 
-    public void add(Vector3f vector) throws ArrayIndexOutOfBoundsException{
+    public Vector3f add(Vector3f vector) throws ArrayIndexOutOfBoundsException{
         for (int i = 0; i < values.length; i++) {
             values[i] += vector.get()[i];
         }
-
-
+        return this;
     }
 
     public float[] get(){
@@ -72,7 +76,7 @@ public class Vector3f {
     }
 
     public float get(int index){
-        if(index+1 <= values.length){
+        if(index+1 <= values.length){//TODO warum?
             return values[index];
         } else return (float)-Math.E;
 

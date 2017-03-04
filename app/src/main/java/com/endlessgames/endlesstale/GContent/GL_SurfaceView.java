@@ -20,12 +20,12 @@ public class GL_SurfaceView extends GLSurfaceView{
     public boolean onTouchEvent(MotionEvent e){
         float x = e.getX();
         float y = e.getY();
-        
+
         if(e.getAction() == MotionEvent.ACTION_MOVE){
             float dx = x - mPreviousX;
             float dy = y - mPreviousY;
-            dx *= 2; //Convert from 0-1 KOS to -1-1 KOS
-            dy *= 2;
+            dx /= 20; //Convert from 0-1 KOS to -1-1 KOS
+            dy /= 20;
 
             mRenderer.translate(new Vector3f(dx/getWidth(), -dy/getHeight(), 0));
         }
