@@ -1,5 +1,6 @@
 package com.endlessgames.endlesstale.GContent;
 
+import android.graphics.Matrix;
 import android.opengl.GLES20;
 
 import com.endlessgames.endlesstale.MathContent.Matrix3x3f;
@@ -25,6 +26,10 @@ public class Triangle {
             -0.5f, -0.311004243f, 0.0f, // bottom left
             0.5f, -0.311004243f, 0.0f  // bottom right
     };
+    //There is a Matrix class: https://developer.android.com/reference/android/graphics/Matrix.html
+    //Someone (RK) should understand this...
+    private Matrix m2trianglecoords = new Matrix();
+
 
     private Vector3f position = Vector3f.ZEROVECTOR;
     private Matrix3x3f vertexCoords = new Matrix3x3f(new Vector3f[]{new Vector3f(0, 0.5f, 0), new Vector3f(-0.5f, 0, 0), new Vector3f(0.5f, 0, 0)});
@@ -37,7 +42,10 @@ public class Triangle {
         mtriangleCoords.set(new Vector3f[]{vertexCoords.get(0), vertexCoords.get(1), vertexCoords.get(2) });
         mtriangleCoords.add(new Matrix3x3f(new Vector3f[]{vector, vector, vector}));
         triangleCoords = mtriangleCoords.get();
-        System.out.println(triangleCoords.toString());
+        //m2trianglecoords.setValues(mtriangleCoords.get());
+        //m2trianglecoords.postTranslate(vector.get(0), vector.get(1));
+        //m2trianglecoords.getValues(triangleCoords);
+        //System.out.println(triangleCoords.toString());
         put();
     }
 

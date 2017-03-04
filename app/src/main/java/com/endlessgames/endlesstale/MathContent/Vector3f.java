@@ -9,7 +9,7 @@ public class Vector3f {
     private float[] values;
 
 
-    public Vector3f(float[] values){ //Exception?
+    public Vector3f(float[] values) {
         if(values.length == 3){
             this.values = values;
         }

@@ -25,6 +25,7 @@ public class Matrix3x3f {
         if(index+1 <= values.length){
             return values[index];
         } else return null;
+
     }
 
     //Returns a Float-Array of all Values
