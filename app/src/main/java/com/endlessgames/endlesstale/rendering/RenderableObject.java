@@ -21,8 +21,6 @@ public class RenderableObject {
     }
 
     public float[] getVerticies(){
-        System.out.println(position.get(0));
-        System.out.println(position.get(1));
         ArrayList<Vector3f> translatedMesh = new ArrayList<>();
         for(Vector3f vertex: mesh){
             translatedMesh.add(vertex.clone().multiply(scale).add(position));
@@ -37,7 +35,6 @@ public class RenderableObject {
     }
 
     public void translate(Vector3f translation){
-        System.out.println("Translation");
         position.add(translation);
     }
 }

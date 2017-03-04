@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TestActivity"
+            android:name=".GameActivity"
             android:label="@string/title_activity_test"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

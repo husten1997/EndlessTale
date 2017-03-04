@@ -1,10 +1,16 @@
 package com.endlessgames.endlesstale.shader;
 
+import android.content.Context;
+import android.graphics.Shader;
 import android.opengl.GLES20;
 
 import com.endlessgames.endlesstale.GContent.GL_Renderer;
+import com.endlessgames.endlesstale.R;
 import com.endlessgames.endlesstale.rendering.RenderableObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -17,7 +23,33 @@ public abstract class ShaderProgramm {
 
     protected int shaderProgramm, vertexShader, fragmentShader;
 
-    public ShaderProgramm(String vertexShaderCode, String fragmentShaderCode){
+    public ShaderProgramm(int vertexShader, int fragmentShader, Context context){
+        String vertexShaderCode = "", fragmentShaderCode = "";
+        try{
+            BufferedReader reader = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(vertexShader)));
+            StringBuilder builder =new StringBuilder();
+
+            String line = reader.readLine();
+            while(line!=null){
+                builder.append(line);
+                line = reader.readLine();
+            }
+            reader.close();
+            vertexShaderCode = builder.toString();
+
+            reader = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(fragmentShader)));
+            builder =new StringBuilder();
+
+            line = reader.readLine();
+            while(line!=null){
+                builder.append(line);
+                line = reader.readLine();
+            }
+            reader.close();
+            fragmentShaderCode = builder.toString();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         vertexShader = loadShader(GLES20.GL_VERTEX_SHADER,
                 vertexShaderCode);
         fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER,

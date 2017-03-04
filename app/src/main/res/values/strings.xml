@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">EndlessTale</string>
     <string name="button_start">Start</string>
-    <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_test">GameActivity</string>
 </resources>

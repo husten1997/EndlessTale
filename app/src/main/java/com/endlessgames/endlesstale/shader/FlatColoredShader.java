@@ -1,10 +1,16 @@
 package com.endlessgames.endlesstale.shader;
 
+import android.content.Context;
 import android.opengl.GLES20;
 import android.provider.Settings;
 
+import com.endlessgames.endlesstale.R;
 import com.endlessgames.endlesstale.rendering.FlatColoredObject;
 import com.endlessgames.endlesstale.rendering.RenderableObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Created by richard on 04.03.17.
@@ -14,15 +20,8 @@ public class FlatColoredShader extends ShaderProgramm{
 
     private int positionLocation, colorLocation;
 
-    public FlatColoredShader(){
-        super("attribute vec4 vPosition;" +
-                "void main() {" +
-                "  gl_Position = vPosition;" +
-                "}","precision mediump float;" +
-                "uniform vec4 vColor;" +
-                "void main() {" +
-                "  gl_FragColor = vColor;" +
-                "}");//TODO
+    public FlatColoredShader(Context context){
+        super(R.raw.flatcoloredvertexshader, R.raw.flatcoloredfragmentshader, context);
     }
 
     public void draw(FlatColoredObject obj) {

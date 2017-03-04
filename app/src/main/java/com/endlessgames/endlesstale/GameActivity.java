@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.endlessgames.endlesstale.GContent.GL_SurfaceView;
 
-public class TestActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class TestActivity extends AppCompatActivity {
                 hideSystemUI(view);
                 handle(view);
             }
-        }, 3000);
+        }, 6000);
     }
 
     // This snippet hides the system bars.

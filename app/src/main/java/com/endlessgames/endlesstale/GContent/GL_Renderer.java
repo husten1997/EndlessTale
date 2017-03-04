@@ -1,5 +1,6 @@
 package com.endlessgames.endlesstale.GContent;
 
+import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
@@ -19,13 +20,18 @@ public class GL_Renderer implements GLSurfaceView.Renderer {
 
     private Level level;
     private FlatColoredShader flatColoredShader;
+    private Context context;
+
+    public GL_Renderer(Context context){
+        this.context = context;
+    }
 
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         level = new Level();
-        flatColoredShader = new FlatColoredShader();
+        flatColoredShader = new FlatColoredShader(context);
     }
 
     @Override
