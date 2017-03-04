@@ -36,15 +36,18 @@ public class GL_Renderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl10, int width, int height) {
-
         GLES20.glViewport(0, 0, width, height);
+        GLES20.glScissor(0, 0, width, height);
     }
 
     @Override
     public void onDrawFrame(GL10 gl10) {
+        double t1 = System.nanoTime();
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         drawFlatColoredObjects();
+        double t2 = System.nanoTime();
+        System.out.println(1000000000/(t2 - t1)); //TODO
     }
 
     private void drawFlatColoredObjects(){
