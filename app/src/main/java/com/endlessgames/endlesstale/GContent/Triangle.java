@@ -21,7 +21,7 @@ public class Triangle {
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
-    static float triangleCoords[];
+    static float triangleCoords[] = new float[9];
     //There is a Matrix class: https://developer.android.com/reference/android/graphics/Matrix.html
     //Someone (RK) should understand this...
     private Matrix m2trianglecoords = new Matrix();
