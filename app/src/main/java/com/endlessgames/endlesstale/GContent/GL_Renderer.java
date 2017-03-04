@@ -3,6 +3,8 @@ package com.endlessgames.endlesstale.GContent;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
+import com.endlessgames.endlesstale.MathContent.Vector3f;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -46,8 +48,7 @@ public class GL_Renderer implements GLSurfaceView.Renderer {
         return shader;
     }
 
-    public void dothis(float x, float y){
-        mTriangle.dothis(x, y);
-        //System.out.println("Done 2");
+    public void translate(Vector3f translation){
+        mTriangle.translate(translation);
     }
 }

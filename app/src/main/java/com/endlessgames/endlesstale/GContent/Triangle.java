@@ -32,30 +32,16 @@ public class Triangle {
 
 
     private Vector3f position = Vector3f.ZEROVECTOR;
-    private Matrix3x3f vertexCoords = new Matrix3x3f(new Vector3f[]{new Vector3f(0, 0.5f, 0), new Vector3f(-0.5f, 0, 0), new Vector3f(0.5f, 0, 0)});
-    private Matrix3x3f mtriangleCoords = new Matrix3x3f(new Vector3f[]{new Vector3f(0, 0.5f, 0), new Vector3f(-0.5f, 0, 0), new Vector3f(0.5f, 0, 0)});
+    private Matrix3x3f vertexCoords = new Matrix3x3f(new Vector3f[]{new Vector3f(0, 0.5f, 0), new Vector3f(-0.5f, 0, 0), new Vector3f(0.5f, 0, 0)});//Model
+    private Matrix3x3f mtriangleCoords = new Matrix3x3f(new Vector3f[]{new Vector3f(0, 0.5f, 0), new Vector3f(-0.5f, 0, 0), new Vector3f(0.5f, 0, 0)});//real space
 
     private float scale = 1;
-
-    public void transformR(Vector3f vector){
-        position.add(vector);
-        mtriangleCoords.set(new Vector3f[]{vertexCoords.get(0), vertexCoords.get(1), vertexCoords.get(2) });
-        mtriangleCoords.add(new Matrix3x3f(new Vector3f[]{vector, vector, vector}));
-        triangleCoords = mtriangleCoords.get();
-        //m2trianglecoords.setValues(mtriangleCoords.get());
-        //m2trianglecoords.postTranslate(vector.get(0), vector.get(1));
-        //m2trianglecoords.getValues(triangleCoords);
-        //System.out.println(triangleCoords.toString());
-        put();
-    }
-
 
     // Set color with red, green, blue and alpha (opacity) values
     float color[] = { 0.63671875f, 0.76953125f, 0.22265625f, 1.0f };
 
     public Triangle() {
 
-        triangleCoords = mtriangleCoords.get();
         triangleCoords = mtriangleCoords.get();
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
@@ -152,8 +138,11 @@ public class Triangle {
         vertexBuffer.position(0);
     }
 
-    public void dothis(float x, float y){
-        transformR(new Vector3f(x, y, 0f));
-        //System.out.println("Done 3");
+    public void translate(Vector3f translation){
+        position.add(translation);
+        mtriangleCoords.set(new Vector3f[]{vertexCoords.get(0), vertexCoords.get(1), vertexCoords.get(2) });
+        mtriangleCoords.add(new Matrix3x3f(new Vector3f[]{translation, translation, translation}));
+        triangleCoords = mtriangleCoords.get();
+        put();
     }
 }
