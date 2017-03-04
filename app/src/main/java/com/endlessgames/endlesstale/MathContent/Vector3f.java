@@ -17,7 +17,11 @@ public class Vector3f {
     }
 
     public Vector3f clone(){
-        return new Vector3f(values);
+        float[] v =  new float[3];
+        for(int i = 0; i<3; i++){
+            v[i] = values[i];
+        }
+        return new Vector3f(v);
     }
 
     public Vector3f(float v1, float v2, float v3){
@@ -76,9 +80,7 @@ public class Vector3f {
     }
 
     public float get(int index){
-        if(index+1 <= values.length){//TODO warum?
-            return values[index];
-        } else return (float)-Math.E;
+        return values[index];
 
     }
 

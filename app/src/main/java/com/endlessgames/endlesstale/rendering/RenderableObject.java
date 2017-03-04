@@ -21,20 +21,23 @@ public class RenderableObject {
     }
 
     public float[] getVerticies(){
+        System.out.println(position.get(0));
+        System.out.println(position.get(1));
         ArrayList<Vector3f> translatedMesh = new ArrayList<>();
         for(Vector3f vertex: mesh){
             translatedMesh.add(vertex.clone().multiply(scale).add(position));
         }
-        float[] verticies = new float[mesh.size()*3];
-        for(int j = 0; j<mesh.size(); j++) {
+        float[] verticies = new float[translatedMesh.size()*3];
+        for(int j = 0; j<translatedMesh.size(); j++) {
             for (int x = 0; x < 3; x++) {
-                verticies[j*3+x] = mesh.get(j).get()[x];
+                verticies[j*3+x] = translatedMesh.get(j).get(x);
             }
         }
         return verticies;
     }
 
     public void translate(Vector3f translation){
+        System.out.println("Translation");
         position.add(translation);
     }
 }
