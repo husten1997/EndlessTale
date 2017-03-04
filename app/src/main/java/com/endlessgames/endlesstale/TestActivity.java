@@ -1,6 +1,7 @@
 package com.endlessgames.endlesstale;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +15,21 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GL_SurfaceView mGLView = new GL_SurfaceView(this);
+        final GL_SurfaceView mGLView = new GL_SurfaceView(this);
         setContentView(mGLView);
+
         hideSystemUI(mGLView);
+        handle(mGLView);
+    }
+
+    private void handle(final View view){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideSystemUI(view);
+                handle(view);
+            }
+        }, 3000);
     }
 
     // This snippet hides the system bars.
@@ -31,15 +44,6 @@ public class TestActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
-    }
-
-    // This snippet shows the system bars. It does this by removing all the flags
-// except for the ones that make the content appear under the system bars.
-    private void showSystemUI(View view) {
-        view.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
 }
