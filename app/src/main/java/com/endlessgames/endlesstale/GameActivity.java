@@ -1,5 +1,6 @@
 package com.endlessgames.endlesstale;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -10,7 +11,7 @@ import android.view.View;
 
 import com.endlessgames.endlesstale.GContent.GL_SurfaceView;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,5 +46,4 @@ public class GameActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
-
 }

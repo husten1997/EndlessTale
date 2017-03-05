@@ -7,7 +7,9 @@ import android.opengl.GLSurfaceView;
 import com.endlessgames.endlesstale.MathContent.Vector3f;
 import com.endlessgames.endlesstale.rendering.FlatColoredObject;
 import com.endlessgames.endlesstale.rendering.Level;
+import com.endlessgames.endlesstale.rendering.TexturedObject;
 import com.endlessgames.endlesstale.shader.FlatColoredShader;
+import com.endlessgames.endlesstale.shader.TexturedShader;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -20,6 +22,7 @@ public class GL_Renderer implements GLSurfaceView.Renderer {
 
     private Level level;
     private FlatColoredShader flatColoredShader;
+    private TexturedShader texturedShader;
     private Context context;
 
     public GL_Renderer(Context context){
@@ -32,6 +35,7 @@ public class GL_Renderer implements GLSurfaceView.Renderer {
 
         level = new Level();
         flatColoredShader = new FlatColoredShader(context);
+        texturedShader = new TexturedShader(context);
     }
 
     @Override
@@ -46,6 +50,7 @@ public class GL_Renderer implements GLSurfaceView.Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         drawFlatColoredObjects();
+        drawTexturedObjects();
         double t2 = System.nanoTime();
         System.out.println(1000000000/(t2 - t1)); //TODO
     }
@@ -53,6 +58,12 @@ public class GL_Renderer implements GLSurfaceView.Renderer {
     private void drawFlatColoredObjects(){
         for(FlatColoredObject obj: level.getFlatColoredObjects()){
             flatColoredShader.draw(obj);
+        }
+    }
+
+    private void drawTexturedObjects(){
+        for(TexturedObject obj: level.getTexturedObjects()){
+            texturedShader.draw(obj);
         }
     }
 

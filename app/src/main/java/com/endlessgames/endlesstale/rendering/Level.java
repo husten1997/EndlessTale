@@ -1,6 +1,7 @@
 package com.endlessgames.endlesstale.rendering;
 
 import com.endlessgames.endlesstale.MathContent.Vector3f;
+import com.endlessgames.endlesstale.R;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 public class Level {
 
     private ArrayList<FlatColoredObject> flatColoredObjects = new ArrayList<>();
+    private ArrayList<TexturedObject> texturedObjects = new ArrayList<>();
     private FlatColoredObject triangle;
 
     public Level(){
@@ -30,5 +32,9 @@ public class Level {
 
     public ArrayList<FlatColoredObject> getFlatColoredObjects() {
         return flatColoredObjects;
+    }
+
+    public ArrayList<TexturedObject> getTexturedObjects() {
+        return texturedObjects;
     }
 }
