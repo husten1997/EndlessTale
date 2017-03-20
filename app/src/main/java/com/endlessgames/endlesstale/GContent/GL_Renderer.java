@@ -2,14 +2,12 @@ package com.endlessgames.endlesstale.GContent;
 
 import android.content.Context;
 import android.opengl.GLES20;
+import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
-import com.endlessgames.endlesstale.MathContent.Vector3f;
-import com.endlessgames.endlesstale.rendering.FlatColoredObject;
-import com.endlessgames.endlesstale.rendering.Level;
-import com.endlessgames.endlesstale.rendering.TexturedObject;
-import com.endlessgames.endlesstale.shader.FlatColoredShader;
-import com.endlessgames.endlesstale.shader.TexturedShader;
+import com.endlessgames.endlesstale.renderEngine.Loader;
+import com.endlessgames.endlesstale.renderEngine.RawModel;
+import com.endlessgames.endlesstale.shader.StaticShader;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -20,10 +18,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class GL_Renderer implements GLSurfaceView.Renderer {
 
-    private Level level;
-    private FlatColoredShader flatColoredShader;
-    private TexturedShader texturedShader;
     private Context context;
+    private RawModel model; //TODO
+    private StaticShader shader;//TODO clean up shaders as well
 
     public GL_Renderer(Context context){
         this.context = context;
@@ -31,11 +28,22 @@ public class GL_Renderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        GLES20.glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 
-        level = new Level();
-        flatColoredShader = new FlatColoredShader(context);
-        texturedShader = new TexturedShader(context);
+        float[] vertices = {
+                -0.5f, 0.5f, 0f,
+                -0.5f, -0.5f, 0f,
+                0.5f, -0.5f, 0f,
+                0.5f, 0.5f, 0f
+        };
+
+        int[] indices = {
+                0,1,3,
+                3,1,2
+        };
+
+        model = Loader.getLoader().loadToVAO(vertices, indices);
+        shader = new StaticShader(context);
     }
 
     @Override
@@ -47,27 +55,26 @@ public class GL_Renderer implements GLSurfaceView.Renderer {
     @Override
     public void onDrawFrame(GL10 gl10) {
         double t1 = System.nanoTime();
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
-        drawFlatColoredObjects();
-        drawTexturedObjects();
+        prepare();
+        shader.start();
+        render(model);
+        shader.stop();
+
         double t2 = System.nanoTime();
-        System.out.println(1000000000/(t2 - t1)); //TODO
+        //System.out.println(1000000000 / (t2 - t1)); //TODO
     }
 
-    private void drawFlatColoredObjects(){
-        for(FlatColoredObject obj: level.getFlatColoredObjects()){
-            flatColoredShader.draw(obj);
-        }
+    public void prepare(){
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
     }
 
-    private void drawTexturedObjects(){
-        for(TexturedObject obj: level.getTexturedObjects()){
-            texturedShader.draw(obj);
-        }
-    }
+    public void render(RawModel model){
+        GLES30.glBindVertexArray(model.getVaoID());
+        GLES30.glEnableVertexAttribArray(0);
+        GLES30.glDrawElements(GLES30.GL_TRIANGLES, model.getVertexCount(), GLES30.GL_UNSIGNED_INT, 0);
 
-    public void translate(Vector3f translation){
-        level.translate(translation);
+        GLES30.glDisableVertexAttribArray(0);
+        GLES30.glBindVertexArray(0);
     }
 }

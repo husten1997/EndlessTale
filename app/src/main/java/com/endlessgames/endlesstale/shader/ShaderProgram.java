@@ -1,14 +1,11 @@
 package com.endlessgames.endlesstale.shader;
 
 import android.content.Context;
-import android.graphics.Shader;
 import android.opengl.GLES20;
+import android.opengl.GLES30;
 
-import com.endlessgames.endlesstale.GContent.GL_Renderer;
 import com.endlessgames.endlesstale.R;
-import com.endlessgames.endlesstale.rendering.RenderableObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
@@ -19,11 +16,11 @@ import java.nio.FloatBuffer;
  * Created by richard on 04.03.17.
  */
 
-public abstract class ShaderProgramm {
+public abstract class ShaderProgram {
 
-    protected int shaderProgramm, vertexShader, fragmentShader;
+    private int shaderProgram, vertexShaderID, fragmentShaderID;
 
-    public ShaderProgramm(int vertexShader, int fragmentShader, Context context){
+    public ShaderProgram(int vertexShader, int fragmentShader, Context context){
         String vertexShaderCode = "", fragmentShaderCode = "";
         try{
             BufferedReader reader = new BufferedReader(new InputStreamReader(context.getResources().openRawResource(vertexShader)));
@@ -49,29 +46,32 @@ public abstract class ShaderProgramm {
             fragmentShaderCode = builder.toString();
         }catch(Exception e){
             e.printStackTrace();
+            System.exit(-1);
         }
-        vertexShader = loadShader(GLES20.GL_VERTEX_SHADER,
+
+        vertexShaderID = loadShader(GLES20.GL_VERTEX_SHADER,
                 vertexShaderCode);
-        fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER,
+        fragmentShaderID = loadShader(GLES20.GL_FRAGMENT_SHADER,
                 fragmentShaderCode);
 
         // create empty OpenGL ES Program
-        shaderProgramm = GLES20.glCreateProgram();
+        shaderProgram = GLES20.glCreateProgram();
 
         // add the vertex shader to program
-        GLES20.glAttachShader(shaderProgramm, vertexShader);
+        GLES20.glAttachShader(shaderProgram, vertexShaderID);
 
         // add the fragment shader to program
-        GLES20.glAttachShader(shaderProgramm, fragmentShader);
+        GLES20.glAttachShader(shaderProgram, fragmentShaderID);
+
+        bindAttributes();
 
         // creates OpenGL ES program executables
-        GLES20.glLinkProgram(shaderProgramm);
+        GLES20.glLinkProgram(shaderProgram);
 
-        GLES20.glUseProgram(shaderProgramm);
-        getAttributeLocations();
+        GLES20.glValidateProgram(shaderProgram);
     }
 
-    public static int loadShader(int type, String shaderCode){
+    private static int loadShader(int type, String shaderCode){
 
         // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
         // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
@@ -81,24 +81,31 @@ public abstract class ShaderProgramm {
         GLES20.glShaderSource(shader, shaderCode);
         GLES20.glCompileShader(shader);
 
+        System.out.println(GLES20.glGetShaderInfoLog(shader));//TODO
+
         return shader;
     }
 
-    public abstract void getAttributeLocations();
+    protected abstract void bindAttributes();
 
-    protected FloatBuffer toFloatBuffer(float[] coords){
-        ByteBuffer bb = ByteBuffer.allocateDirect(
-                // (number of coordinate values * 4 bytes per float)
-                coords.length * 4);
-        // use the device hardware's native byte order
-        bb.order(ByteOrder.nativeOrder());
+    protected void bindAttribute(int attribute, String variableName){
+        GLES20.glBindAttribLocation(shaderProgram, attribute, variableName);
+    }
 
-        // create a floating point buffer from the ByteBuffer
-        FloatBuffer buffer = bb.asFloatBuffer();
-        // add the coordinates to the FloatBuffer
-        buffer.put(coords);
-        // set the buffer to read the first coordinate
-        buffer.position(0);
-        return buffer;
+    public void start(){
+        GLES20.glUseProgram(shaderProgram);
+    }
+
+    public void stop(){
+        GLES20.glUseProgram(0);
+    }
+
+    public void cleanUp(){
+        stop();
+        GLES20.glDetachShader(shaderProgram, vertexShaderID);
+        GLES20.glDetachShader(shaderProgram, fragmentShaderID);
+        GLES20.glDeleteShader(vertexShaderID);
+        GLES20.glDeleteShader(fragmentShaderID);
+        GLES20.glDeleteProgram(shaderProgram);
     }
 }

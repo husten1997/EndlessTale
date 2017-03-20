@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.endlessgames.endlesstale.GContent.GL_SurfaceView;
+import com.endlessgames.endlesstale.renderEngine.Loader;
 
 public class GameActivity extends Activity {
 
@@ -45,5 +46,11 @@ public class GameActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
+
+    @Override
+    protected void onDestroy() {
+       //TODO  Loader.getLoader().cleanUp();
+        super.onDestroy();
     }
 }

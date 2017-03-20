@@ -27,7 +27,7 @@ public class GL_SurfaceView extends GLSurfaceView{
             dx *= 2; //Convert from 0-1 KOS to -1-1 KOS
             dy *= 2;
 
-            mRenderer.translate(new Vector3f(dx/getWidth(), -dy/getHeight(), 0));
+            //TODO mRenderer.translate(new Vector3f(dx/getWidth(), -dy/getHeight(), 0));
         }
 
         mPreviousX = x;
@@ -38,8 +38,8 @@ public class GL_SurfaceView extends GLSurfaceView{
     public GL_SurfaceView(Context context){
         super(context);
 
-        //Create an OpenGl ES 2.0 context
-        setEGLContextClientVersion(2);
+        //Create an OpenGl ES 3.0 context
+        setEGLContextClientVersion(3);
 
         mRenderer = new GL_Renderer(context);
 
