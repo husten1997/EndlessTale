@@ -9,6 +9,10 @@ import com.endlessgames.endlesstale.renderEngine.Loader;
 import com.endlessgames.endlesstale.renderEngine.RawModel;
 import com.endlessgames.endlesstale.shader.StaticShader;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -73,7 +77,6 @@ public class GL_Renderer implements GLSurfaceView.Renderer {
         GLES30.glBindVertexArray(model.getVaoID());
         GLES30.glEnableVertexAttribArray(0);
         GLES30.glDrawElements(GLES30.GL_TRIANGLES, model.getVertexCount(), GLES30.GL_UNSIGNED_INT, 0);
-
         GLES30.glDisableVertexAttribArray(0);
         GLES30.glBindVertexArray(0);
     }
